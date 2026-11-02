@@ -20,6 +20,8 @@ def generate_token(user_id : str):
 
 def verify_token(credentials : HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
+    # httpAutho.. is class with 2 attributes -> credentials , scheme
+    # there are 3 types of schemes 
     try:
         decoded = jwt.decode(token , secret_key , algorithms = ["HS256"])
         if decoded["jti"] in redis_blocklist:
@@ -31,6 +33,7 @@ def verify_token(credentials : HTTPAuthorizationCredentials = Depends(security))
         raise HTTPException(status_code=401, detail="Invalid token")
 
 @app.post("/logout")
+#Depends() is FastAPI's dependency injection mechanism. It allows us to declare that an endpoint or another dependency requires a particular function or resource, and FastAPI automatically executes that dependency, resolves its own dependencies, and injects its return value into the function.
 def logout(user_data : dict = Depends(verify_token)):
     redis_blocklist.add(user_data["jti"])
     return {"msg" : "successfully logged out"}
