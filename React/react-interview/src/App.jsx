@@ -5,15 +5,29 @@ import {useState} from "react"
 function App() {
     const[count , setCount] = useState(0);
     function increment(){
-        count = setCount(count + 1);
+       setCount(count + 1);
     }
     function click(){
         alert("button clicked");
     }
+     const[user , setUser] = useState({
+            name : "Aaditya",
+            age: 21
+        });
+    function updateUser(){
+        setUser({
+            ...user,
+            age:22
+        });
+        setUser({
+            ...prev,
+            age:22
+        })
+    }
     return (
         <>
         <h1>count</h1>
-        <button onClick = {click}>{count}</button>
+        <button onClick = {increment}>{count}</button>
         {/*click is funcrion reference only so function is called when button is clicked and in click() function is called irrespective*/}
             <h1>Student Directory</h1>
 
