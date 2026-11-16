@@ -6,6 +6,12 @@ function App() {
     const[count , setCount] = useState(0);
     function increment(){
        setCount(count + 1);
+    // setCount(prev => prev + 1);
+    // add an element: setItems(prev => [...prev, 40]);
+    // to remove and element: setItems(prev => prev.filter(item => item !== 20));
+    // to modify: setItems(prev =>
+    // prev.map(item => item === 20 ? 25 : item)
+// );
     }
     function click(){
         alert("button clicked");
