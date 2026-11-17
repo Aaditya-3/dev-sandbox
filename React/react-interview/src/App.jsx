@@ -1,6 +1,6 @@
 import Student from './Student.jsx';
 import './App.css';
-import {useState} from "react"
+import {useState , useEffect} from "react"
 
 function App() {
     const students = [
@@ -9,6 +9,12 @@ function App() {
         { id: 3, name: "Priya", branch: "ECE",cgpa : 8.00 }
     ];
     const[current , setCurrent] = useState("not eligible");
+    const[user_api , setUser_api] = useState([]);
+    const[searchName , setSearchName] = useState("");
+    useEffect(() =>{
+        fetch("https://jsonplaceholder.typicode.com/users").then(res => res.json())
+        .then(data => setUser_api(data));
+    } , []);
     const[count , setCount] = useState(0);
     function increment(){
        setCount(count + 1);
@@ -48,6 +54,7 @@ function App() {
         setCurrent("eligible");
         }
     }
+    let matchCount = 0;
     return (
         <>
         <h1>count</h1>
@@ -77,7 +84,20 @@ function App() {
             eligibility = {eligibility}
             />) : (<></>)
 )})}
-
+    <input type = "text" value = {searchName} placeholder = "enter the name u want to seacrh" onChange={(e) => {setSearchName(e.target.value)}}/>
+            {
+            user_api.map((user) =>{
+                let isMatch = user.name.toLowerCase().includes(searchName.trim().toLowerCase());
+                if(isMatch){
+                    matchCount++
+                    return(<div key = {user.id}><strong>{user.name}</strong> - {user.email}</div>);
+                }
+                return null;
+            })
+    }
+    {user_api.length > 0 && matchCount == 0 &&
+    <p>NO USERS FOUND</p>
+    }
             {/* <Student
                 name="Aaditya"
                 branch="Information Technology"
