@@ -49,7 +49,7 @@ function App() {
         <h1>count</h1>
 
         <button onClick = {increment}>{count}</button>
-        <button onClick = {show_current}>show {current}</button>
+        <button onClick = {show_current}>show {current === "eligible" ? "not eligible" : "eligible"}</button>
         {/*click is funcrion reference only so function is called when button is clicked and in click() function is called irrespective*/}
             <h1>Student Directory</h1>
 
@@ -59,7 +59,7 @@ function App() {
                 eligibility = "eligible";
             }
             return(
-            eligibility != current ?(
+            eligibility == current ?(
             <Student 
             key = {student.id}
             // id is needed for iterating
