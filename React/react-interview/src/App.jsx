@@ -22,6 +22,10 @@ function App() {
     function click(){
         alert("button clicked");
     }
+    const[data , setData] = useState({
+        name : "",
+        password:""
+    });
      const[user , setUser] = useState({
             name : "Aaditya",
             age: 21
@@ -47,7 +51,11 @@ function App() {
     return (
         <>
         <h1>count</h1>
-
+        <input type = "text" value = {data.name} onChange = {(e) => setData(prev => ({...prev , name : e.target.value}))} placeholder='enter ur name'/>
+        <p>{data.name}</p>
+        <input type = "password" value = {data.password} onChange = {(e) => setData(prev => ({...prev ,password : e.target.value}))} placeholder='enter ur password'/>
+        <button onClick = {() => setData({name : "" , password : ""})}>reset</button>
+        <button  disabled = {!data.name || !data.password} onClick = {() => alert(data.name)}>login</button>
         <button onClick = {increment}>{count}</button>
         <button onClick = {show_current}>show {current === "eligible" ? "not eligible" : "eligible"}</button>
         {/*click is funcrion reference only so function is called when button is clicked and in click() function is called irrespective*/}
