@@ -28,10 +28,10 @@ function App() {
     function click(){
         alert("button clicked");
     }
-    const[data , setData] = useState({
-        name : "",
-        password:""
-    });
+    // const[data , setData] = useState({
+    //     name : "",
+    //     password:""
+    // });
      const[user , setUser] = useState({
             name : "Aaditya",
             age: 21
@@ -54,50 +54,60 @@ function App() {
         setCurrent("eligible");
         }
     }
+    const[data , setData] = useState("");
+    function receiveMessage(data){
+        setData(data)
+    }
     let matchCount = 0;
-    return (
+    return(
         <>
-        <h1>count</h1>
-        <input type = "text" value = {data.name} onChange = {(e) => setData(prev => ({...prev , name : e.target.value}))} placeholder='enter ur name'/>
-        <p>{data.name}</p>
-        <input type = "password" value = {data.password} onChange = {(e) => setData(prev => ({...prev ,password : e.target.value}))} placeholder='enter ur password'/>
-        <button onClick = {() => setData({name : "" , password : ""})}>reset</button>
-        <button  disabled = {!data.name || !data.password} onClick = {() => alert(data.name)}>login</button>
-        <button onClick = {increment}>{count}</button>
-        <button onClick = {show_current}>show {current === "eligible" ? "not eligible" : "eligible"}</button>
-        {/*click is funcrion reference only so function is called when button is clicked and in click() function is called irrespective*/}
-            <h1>Student Directory</h1>
+        <h1>message : {data}</h1>
+        <Student setData = {receiveMessage}></Student>
+        </>
+    )
+//     return (
+//         <>
+//         <h1>count</h1>
+//         <input type = "text" value = {data.name} onChange = {(e) => setData(prev => ({...prev , name : e.target.value}))} placeholder='enter ur name'/>
+//         <p>{data.name}</p>
+//         <input type = "password" value = {data.password} onChange = {(e) => setData(prev => ({...prev ,password : e.target.value}))} placeholder='enter ur password'/>
+//         <button onClick = {() => setData({name : "" , password : ""})}>reset</button>
+//         <button  disabled = {!data.name || !data.password} onClick = {() => alert(data.name)}>login</button>
+//         <button onClick = {increment}>{count}</button>
+//         <button onClick = {show_current}>show {current === "eligible" ? "not eligible" : "eligible"}</button>
+//         {/*click is funcrion reference only so function is called when button is clicked and in click() function is called irrespective*/}
+//             <h1>Student Directory</h1>
 
-           {students.map((student) =>{
-            let eligibility = "not eligible";
-            if(student.cgpa >= 8.5){
-                eligibility = "eligible";
-            }
-            return(
-            eligibility == current ?(
-            <Student 
-            key = {student.id}
-            // id is needed for iterating
-            name = {student.name}
-            branch = {student.branch}
-            cgpa = {student.cgpa}
-            eligibility = {eligibility}
-            />) : (<></>)
-)})}
-    <input type = "text" value = {searchName} placeholder = "enter the name u want to seacrh" onChange={(e) => {setSearchName(e.target.value)}}/>
-            {
-            user_api.map((user) =>{
-                let isMatch = user.name.toLowerCase().includes(searchName.trim().toLowerCase());
-                if(isMatch){
-                    matchCount++
-                    return(<div key = {user.id}><strong>{user.name}</strong> - {user.email}</div>);
-                }
-                return null;
-            })
-    }
-    {user_api.length > 0 && matchCount == 0 &&
-    <p>NO USERS FOUND</p>
-    }
+//            {students.map((student) =>{
+//             let eligibility = "not eligible";
+//             if(student.cgpa >= 8.5){
+//                 eligibility = "eligible";
+//             }
+//             return(
+//             eligibility == current ?(
+//             <Student 
+//             key = {student.id}
+//             // id is needed for iterating
+//             name = {student.name}
+//             branch = {student.branch}
+//             cgpa = {student.cgpa}
+//             eligibility = {eligibility}
+//             />) : (<></>)
+// )})}
+//     <input type = "text" value = {searchName} placeholder = "enter the name u want to seacrh" onChange={(e) => {setSearchName(e.target.value)}}/>
+//             {
+//             user_api.map((user) =>{
+//                 let isMatch = user.name.toLowerCase().includes(searchName.trim().toLowerCase());
+//                 if(isMatch){
+//                     matchCount++
+//                     return(<div key = {user.id}><strong>{user.name}</strong> - {user.email}</div>);
+//                 }
+//                 return null;
+//             })
+//     }
+//     {user_api.length > 0 && matchCount == 0 &&
+//     <p>NO USERS FOUND</p>
+//     }
             {/* <Student
                 name="Aaditya"
                 branch="Information Technology"
@@ -115,8 +125,8 @@ function App() {
                 branch="Electronics"
                 cgpa={9.10}
             /> */}
-        </>
-    );
+        // </>
+    // );
 }
 
 export default App;
