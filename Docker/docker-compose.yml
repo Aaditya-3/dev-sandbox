@@ -1,26 +1,26 @@
-services:
-  api:
-    build: .
-    ports:
-      - "8080:8000"
-    volumes:
-      - .:/app
-    depends_on:
-      - database
+# services:
+#   api:
+#     build: .
+#     ports:
+#       - "8080:8000"
+#     volumes:
+#       - .:/app
+#     depends_on:
+#       - database
 
-  database:
-    image: postgres:15
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: secretpassword
-      POSTGRES_DB: myapp_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - pg_data:/var/lib/postgresql/data
+#   database:
+#     image: postgres:15
+#     environment:
+#       POSTGRES_USER: admin
+#       POSTGRES_PASSWORD: secretpassword
+#       POSTGRES_DB: myapp_db
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - pg_data:/var/lib/postgresql/data
 
-volumes:
-  pg_data:
+# volumes:
+#   pg_data:
 
 #   services:: This block defines the different containers we want to run. We named ours api and database.
 
@@ -39,3 +39,25 @@ volumes:
 # environment: Injects environment variables into the container so PostgreSQL knows what password to set on startup.
 
 # volumes: (at the bottom): This tells Docker to create a managed volume named pg_data to safely store our database files, as we discussed earlier.
+
+
+#MULTISTAGE BUILD:
+FROM python:3.11-slim AS builder
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends gcc libpq-dev
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+FROM python:3.11-slim AS runtime
+WORKDIR /app
+
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY . .
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
