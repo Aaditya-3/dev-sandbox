@@ -61,3 +61,37 @@ ENV PATH="/opt/venv/bin:$PATH"
 COPY . .
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+
+# 1)docker build -t my-api:v1 .	
+# Builds an image from the Dockerfile in the current folder (.) and tags it.
+
+# 2)CommandWhat it does & why it mattersdocker build -t my-api:v1 .
+# Builds an image from the Dockerfile in the current folder (.) and tags it.docker run -d -p 8080:8000 --name api --env-file .env my-api:v1The real-world run command: -d runs in the background (detached), -p maps Host:Container ports, --name gives it a readable name, and --env-file injects secrets at runtime.
+
+# 3)docker run --rm -it my-api:v1 /bin/bash	
+# Boots a temporary container straight into a shell to test things. --rm automatically deletes the container the moment you exit so it doesn't clutter your machine.
+
+# docker ps -a	
+# Lists all containers—running and crashed—along with their status and exit codes (Exited (137)). Plain docker ps hides crashed containers.
+
+# docker logs -f --tail 100 api	
+# Streams live stdout/stderr logs (-f), starting from the last 100 lines so you don't flood your terminal.
+
+# docker exec -it api /bin/bash	
+# Opens a shell inside an already running container to inspect files, environment variables, or test network calls (curl). Use /bin/sh on Alpine images.
+
+# docker compose up -d --build
+# Rebuilds your images (picking up any Dockerfile or requirements.txt changes) and starts all services in the background.
+
+# docker compose logs -f api
+# Follows logs for one specific service instead of interleaving Postgres and FastAPI logs together.
+
+# docker compose down
+# Stops and removes all containers and the custom network created by Compose, while keeping your database volumes safe.
+
+# docker rm -f api
+# Force-stops and deletes a container in one command (great locally; avoid -f in production since it sends SIGKILL instead of graceful SIGTERM).
+
+# docker system prune -a
+# Deletes all stopped containers, unused networks, dangling build cache, and unused images. Run this when Docker eats 20+ GB of your laptop's SSD.
