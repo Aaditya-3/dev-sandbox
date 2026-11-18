@@ -14,7 +14,7 @@ function App() {
     useEffect(() =>{
         fetch("https://jsonplaceholder.typicode.com/users").then(res => res.json())
         .then(data => setUser_api(data));
-    } , []);
+    } , []); // fetches data only one time
     const[count , setCount] = useState(0);
     function increment(){
        setCount(count + 1);
@@ -61,7 +61,7 @@ function App() {
     let matchCount = 0;
     return(
         <>
-        <h1>message : {data}</h1>
+        <h1>message {data}</h1>
         <Student setData = {receiveMessage}></Student>
         </>
     )

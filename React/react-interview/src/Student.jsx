@@ -1,6 +1,6 @@
 function Student({setData}){
   function handleClick(){
-    setData("message from child");
+    setData(" : message from child");
   }
   return(
     <div>
